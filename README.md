@@ -1,0 +1,1 @@
+# AI_Logistics_accessibitlity_platform
