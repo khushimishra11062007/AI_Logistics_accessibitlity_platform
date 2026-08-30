@@ -25,6 +25,13 @@ engine = create_engine(get_database_url(), pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
+def init_db() -> None:
+    # Import model modules so their metadata is registered before table creation.
+    import app.models  # noqa: F401
+
+    Base.metadata.create_all(bind=engine)
+
+
 def get_db() -> Generator[Session, None, None]:
     db = SessionLocal()
     try:

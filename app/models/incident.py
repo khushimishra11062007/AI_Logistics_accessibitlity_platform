@@ -22,7 +22,7 @@ class Incident(Base):
     image_url: Mapped[str | None] = mapped_column(String(500))
     ai_classification: Mapped[str | None] = mapped_column(String(150))
     ai_confidence: Mapped[float | None] = mapped_column(Float)
-    status: Mapped[IncidentStatus] = mapped_column(default=IncidentStatus.OPEN, nullable=False, index=True)
+    status: Mapped[IncidentStatus] = mapped_column(default=IncidentStatus.ACTIVE, nullable=False, index=True)
     reported_by: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

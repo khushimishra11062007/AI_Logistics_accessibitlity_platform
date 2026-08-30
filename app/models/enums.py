@@ -25,6 +25,7 @@ class Severity(str, Enum):
 
 
 class IncidentStatus(str, Enum):
+    ACTIVE = "active"
     OPEN = "open"
     IN_PROGRESS = "in_progress"
     RESOLVED = "resolved"
