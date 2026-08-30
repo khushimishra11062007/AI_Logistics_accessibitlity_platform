@@ -21,3 +21,11 @@ __pycache__/
 # others
 *.db
 *.sqlite3
+
+# generated ML artifacts
+models/*.pkl
+data/training/*.csv
+data/processed/*.csv
+!models/.gitkeep
+!data/training/.gitkeep
+!data/processed/.gitkeep

@@ -8,5 +8,9 @@ python-dotenv
 PyJWT
 httpx
 networkx
+scikit-learn
+pandas
+numpy
+joblib
 pytest
 python-multipart
