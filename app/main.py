@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import init_db
-from app.routes import health_router, incidents_router, risk_router
+from app.routes import health_router, incidents_router, risk_router, routes_router
 from app.utils.error_handlers import register_error_handlers
 
 
@@ -30,6 +30,7 @@ def create_app() -> FastAPI:
     app.include_router(health_router)
     app.include_router(incidents_router)
     app.include_router(risk_router)
+    app.include_router(routes_router, prefix="/api")
 
     @app.get("/")
     async def root() -> dict:
