@@ -68,6 +68,6 @@ class SensorStatus(str, Enum):
 
 class RoadStatus(str, Enum):
     OPEN = "open"
-    BLOCKED = "blocked"
     PARTIALLY_BLOCKED = "partially_blocked"
-    CLOSED = "closed"
+    HIGH_RISK = "high_risk"
+    BLOCKED = "blocked"

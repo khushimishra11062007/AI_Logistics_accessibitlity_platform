@@ -75,66 +75,40 @@ ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 \.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
+## API documentation
+
+FastAPI exposes the generated API documentation when the backend is running:
+
+- Swagger UI: `http://localhost:8000/docs`
+- OpenAPI schema: `http://localhost:8000/openapi.json`
+- ReDoc: `http://localhost:8000/redoc`
+- Complete request/response reference: [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
+
 ## Endpoints
 
 - `GET /` returns the backend status
 - `GET /health` returns the health status
-- `POST /api/risk/predict` returns ML-based risk prediction
+- `POST /api/risk/predict` returns a replaceable placeholder risk prediction
 - `GET /api/risk/current` returns the latest stored risk prediction
 - `GET /api/risk/forecast` returns recent risk predictions
+- `GET /api/roads` and `GET /api/roads/{road_id}` return road accessibility data
+- `PUT /api/roads/{road_id}/status` updates a road to `open`, `partially_blocked`, `high_risk`, or `blocked`
+- `GET /api/villages` supports `state`, `district`, and `risk_level` filters
+- `GET /api/villages/{village_id}` returns one village
 
-## Risk model and dataset
+## Risk prediction flow
 
-No production landslide dataset is included in this repository. The current project uses a synthetic demo dataset generator so the pipeline can be developed, tested, and extended without fabricating real-world historical disaster records.
-
-Required dataset columns:
-
-```text
-latitude, longitude, rainfall_1h, rainfall_6h, rainfall_24h, soil_moisture, slope, elevation, historical_landslides, landslide_occurred
-```
-
-Synthetic dataset creation:
-
-```powershell
-\.venv\Scripts\python.exe -m app.ml.create_demo_dataset
-```
-
-This creates a demo CSV under:
-
-```text
-data/training/landslide_demo_dataset.csv
-```
-
-Training the model:
-
-```powershell
-\.venv\Scripts\python.exe -m app.ml.train
-```
-
-This trains a RandomForestClassifier, evaluates it, prints accuracy/precision/recall/F1/confusion matrix, and saves:
-
-```text
-models/landslide_model.pkl
-models/scaler.pkl
-```
-
-The trained model files are intentionally not committed to Git because they may be large. Generate them locally using the command above.
-
-## Prediction flow
-
-The API remains compatible with the existing route contract:
+The API currently uses a deterministic placeholder calculation. It is intentionally not scientifically validated:
 
 ```text
 POST /api/risk/predict
     -> risk.py
     -> ai_service.py
-    -> app.ml.predict
-    -> trained model + scaler
-    -> risk score + risk level + confidence
+    -> placeholder score + risk level + confidence
     -> PostgreSQL RiskPrediction storage
 ```
 
-The placeholder logic has been replaced with a real ML pipeline but the public API contract is unchanged.
+The calculation is isolated in `app/services/ai_service.py` so the AI/ML implementation can replace it later without changing the public API.
 
 ## Testing
 

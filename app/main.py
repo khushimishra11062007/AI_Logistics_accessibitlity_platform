@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import init_db
-from app.routes import health_router, incidents_router, risk_router
+from app.routes import health_router, incidents_router, risk_router, roads_router, villages_router
 from app.utils.error_handlers import register_error_handlers
 
 
@@ -12,6 +12,31 @@ def create_app() -> FastAPI:
         title=settings.APP_NAME,
         version=settings.APP_VERSION,
         description="NER-SAFE backend foundation for disaster monitoring and emergency response intelligence.",
+        openapi_url="/openapi.json",
+        docs_url="/docs",
+        redoc_url="/redoc",
+        openapi_tags=[
+            {
+                "name": "Health",
+                "description": "Service health and availability checks.",
+            },
+            {
+                "name": "Incidents",
+                "description": "Citizen and field-team incident reporting.",
+            },
+            {
+                "name": "Risk",
+                "description": "Landslide risk prediction and forecast history.",
+            },
+            {
+                "name": "Roads",
+                "description": "Road accessibility and status monitoring.",
+            },
+            {
+                "name": "Villages",
+                "description": "Village locations, population, and risk-level monitoring.",
+            },
+        ],
     )
 
     app.add_middleware(
@@ -30,6 +55,8 @@ def create_app() -> FastAPI:
     app.include_router(health_router)
     app.include_router(incidents_router)
     app.include_router(risk_router)
+    app.include_router(roads_router)
+    app.include_router(villages_router)
 
     @app.get("/")
     async def root() -> dict:

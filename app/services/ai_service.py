@@ -1,12 +1,7 @@
 from dataclasses import dataclass
 
-from app.ml.predict import predict_risk as run_ml_prediction
 from app.models.enums import RiskLevel
 from app.schemas.risk import RiskPredictionInput
-
-
-class ModelNotTrainedError(RuntimeError):
-    pass
 
 
 @dataclass
@@ -16,19 +11,35 @@ class RiskPredictionResult:
     model_confidence: float
 
 
-def generate_placeholder_risk_prediction(payload: RiskPredictionInput) -> RiskPredictionResult:
-    """Generate a risk prediction using the replaceable ML pipeline.
+def classify_risk_level(risk_score: float) -> RiskLevel:
+    if risk_score <= 30:
+        return RiskLevel.LOW
+    if risk_score <= 60:
+        return RiskLevel.MODERATE
+    if risk_score <= 80:
+        return RiskLevel.HIGH
+    return RiskLevel.CRITICAL
 
-    Do not change the public API contract. The route continues to call this function, but the
-    implementation now delegates to the trained ML model under app/ml.
+
+def generate_placeholder_risk_prediction(payload: RiskPredictionInput) -> RiskPredictionResult:
+    """Generate a deterministic placeholder score until the real AI model is available.
+
+    The route depends only on this function's result, so an ML implementation can replace this
+    calculation later without changing the API contract.
     """
-    try:
-        raw_result = run_ml_prediction(payload.model_dump())
-    except FileNotFoundError as exc:
-        raise ModelNotTrainedError("ML model is not trained. Run the training script first.") from exc
+    weighted_score = (
+        min(payload.rainfall_1h / 50, 1) * 10
+        + min(payload.rainfall_6h / 150, 1) * 15
+        + min(payload.rainfall_24h / 300, 1) * 20
+        + (payload.soil_moisture / 100) * 15
+        + (payload.slope / 60) * 15
+        + min(payload.historical_landslides / 10, 1) * 15
+        + min(max(payload.elevation, 0) / 3000, 1) * 10
+    )
+    risk_score = round(min(max(weighted_score, 0), 100), 2)
 
     return RiskPredictionResult(
-        risk_score=raw_result["risk_score"],
-        risk_level=RiskLevel(raw_result["risk_level"].lower()),
-        model_confidence=raw_result["model_confidence"],
+        risk_score=risk_score,
+        risk_level=classify_risk_level(risk_score),
+        model_confidence=0.5,
     )
