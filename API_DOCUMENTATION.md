@@ -478,6 +478,39 @@ The response is `201 Created` and contains the stored alert object.
 
 ---
 
+## 7. Emergency response prioritization
+
+### `GET /api/emergency/priorities`
+
+Ranks village locations using risk score, population, nearest-road accessibility, and active
+incident severity. The result is ordered from highest to lowest priority.
+
+Priority levels:
+
+- `P1`: Immediate
+- `P2`: High
+- `P3`: Moderate
+
+Response `200 OK`:
+
+```json
+[
+  {
+    "location": "Hill Village",
+    "priority_score": 82.5,
+    "priority_level": "P1",
+    "risk_score": 90.0,
+    "population": 5000,
+    "road_status": "blocked"
+  }
+]
+```
+
+The calculation is isolated in `app/services/emergency_service.py`. Route optimization is not
+implemented yet.
+
+---
+
 ## HTTP status codes
 
 | Status | Meaning |

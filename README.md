@@ -98,6 +98,7 @@ FastAPI exposes the generated API documentation when the backend is running:
 - `GET /api/alerts` lists stored alerts
 - `POST /api/alerts` creates an alert
 - `POST /api/alerts/generate` generates an alert from a risk score
+- `GET /api/emergency/priorities` returns ranked emergency response priorities
 
 ## Risk prediction flow
 

@@ -3,7 +3,15 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import init_db
-from app.routes import alerts_router, health_router, incidents_router, risk_router, roads_router, villages_router
+from app.routes import (
+    alerts_router,
+    emergency_router,
+    health_router,
+    incidents_router,
+    risk_router,
+    roads_router,
+    villages_router,
+)
 from app.utils.error_handlers import register_error_handlers
 
 
@@ -27,6 +35,10 @@ def create_app() -> FastAPI:
             {
                 "name": "Incidents",
                 "description": "Citizen and field-team incident reporting.",
+            },
+            {
+                "name": "Emergency",
+                "description": "Emergency response prioritization.",
             },
             {
                 "name": "Risk",
@@ -57,6 +69,7 @@ def create_app() -> FastAPI:
 
     register_error_handlers(app)
     app.include_router(alerts_router)
+    app.include_router(emergency_router)
     app.include_router(health_router)
     app.include_router(incidents_router)
     app.include_router(risk_router)
