@@ -1,5 +1,5 @@
 export async function checkBackend() {
-  const response = await fetch("http://localhost:8000/api/health");
+  const response = await fetch("http://localhost:8000/health");
 
   if (!response.ok) {
     throw new Error("Backend is not reachable");
