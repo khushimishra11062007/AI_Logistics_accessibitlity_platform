@@ -10,6 +10,7 @@ from app.routes import (
     incidents_router,
     risk_router,
     roads_router,
+    simulation_router,
     villages_router,
 )
 from app.utils.error_handlers import register_error_handlers
@@ -52,6 +53,10 @@ def create_app() -> FastAPI:
                 "name": "Villages",
                 "description": "Village locations, population, and risk-level monitoring.",
             },
+            {
+                "name": "Simulation",
+                "description": "Demo-only disaster simulation controls.",
+            },
         ],
     )
 
@@ -74,6 +79,7 @@ def create_app() -> FastAPI:
     app.include_router(incidents_router)
     app.include_router(risk_router)
     app.include_router(roads_router)
+    app.include_router(simulation_router)
     app.include_router(villages_router)
 
     @app.get("/")

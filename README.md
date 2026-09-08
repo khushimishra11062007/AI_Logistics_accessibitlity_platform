@@ -99,6 +99,8 @@ FastAPI exposes the generated API documentation when the backend is running:
 - `POST /api/alerts` creates an alert
 - `POST /api/alerts/generate` generates an alert from a risk score
 - `GET /api/emergency/priorities` returns ranked emergency response priorities
+- `POST /api/simulation/heavy-rainfall` runs the demo heavy-rainfall simulation
+- `POST /api/simulation/reset` restores the pre-simulation demo state
 
 ## Risk prediction flow
 

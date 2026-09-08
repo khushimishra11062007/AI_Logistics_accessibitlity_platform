@@ -511,6 +511,48 @@ implemented yet.
 
 ---
 
+## 8. Demo disaster simulation
+
+These endpoints are for the hackathon demo only. They are not real disaster prediction APIs.
+The simulation changes database records and can be reversed with the reset endpoint.
+
+### `POST /api/simulation/heavy-rainfall`
+
+Simulates heavy rainfall for up to four most vulnerable village zones. It increases rainfall and
+soil moisture, recalculates risk, updates village and nearby road statuses, generates alerts for
+critical zones, and recalculates emergency priorities.
+
+Response `200 OK`:
+
+```json
+{
+  "simulation": "HEAVY_RAINFALL",
+  "affected_zones": 4,
+  "high_risk_zones": 3,
+  "blocked_roads": 2,
+  "alerts_generated": 5
+}
+```
+
+### `POST /api/simulation/reset`
+
+Restores the demo database state captured before the first simulation, including risk predictions,
+village risk levels, road statuses, and simulation-generated alerts.
+
+Response `200 OK`:
+
+```json
+{
+  "simulation": "RESET",
+  "affected_zones": 0,
+  "high_risk_zones": 0,
+  "blocked_roads": 0,
+  "alerts_generated": 0
+}
+```
+
+---
+
 ## HTTP status codes
 
 | Status | Meaning |
