@@ -10,6 +10,7 @@ from app.routes import (
     incidents_router,
     risk_router,
     roads_router,
+    routes_router,
     simulation_router,
     villages_router,
 )
@@ -50,6 +51,10 @@ def create_app() -> FastAPI:
                 "description": "Road accessibility and status monitoring.",
             },
             {
+                "name": "Routes",
+                "description": "Frontend-ready route safety evaluation.",
+            },
+            {
                 "name": "Villages",
                 "description": "Village locations, population, and risk-level monitoring.",
             },
@@ -79,6 +84,7 @@ def create_app() -> FastAPI:
     app.include_router(incidents_router)
     app.include_router(risk_router)
     app.include_router(roads_router)
+    app.include_router(routes_router)
     app.include_router(simulation_router)
     app.include_router(villages_router)
 
