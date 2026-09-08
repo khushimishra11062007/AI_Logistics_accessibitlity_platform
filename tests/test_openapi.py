@@ -25,4 +25,6 @@ def test_openapi_schema_describes_api():
     assert "/api/roads/{road_id}/status" in schema["paths"]
     assert "/api/villages" in schema["paths"]
     assert "/api/villages/{village_id}" in schema["paths"]
+    assert "/api/alerts" in schema["paths"]
+    assert "/api/alerts/generate" in schema["paths"]
     assert schema["paths"]["/health"]["get"]["tags"] == ["Health"]

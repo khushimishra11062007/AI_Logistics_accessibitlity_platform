@@ -401,6 +401,83 @@ Response `404 Not Found`:
 
 ---
 
+## 6. Alert APIs
+
+Alerts are stored in the database only. SMS and WhatsApp notifications are not implemented yet.
+
+Alert severity values are `low`, `moderate`, `high`, and `critical`. Alert targets are
+`district`, `village`, `road`, or `all`. Alert statuses are `active`, `acknowledged`, or
+`resolved`.
+
+### `GET /api/alerts`
+
+Returns stored alerts, newest first.
+
+Response `200 OK`:
+
+```json
+[
+  {
+    "id": 1,
+    "title": "Critical Landslide Risk",
+    "message": "Critical landslide risk detected with a risk score of 81.00.",
+    "severity": "critical",
+    "latitude": 27.12,
+    "longitude": 93.52,
+    "target": "village",
+    "status": "active",
+    "created_at": "2026-09-06T11:00:00Z"
+  }
+]
+```
+
+### `POST /api/alerts`
+
+Creates and stores a manual alert.
+
+Request body:
+
+```json
+{
+  "title": "Road Warning",
+  "message": "Avoid the mountain road.",
+  "severity": "high",
+  "latitude": 27.12,
+  "longitude": 93.52,
+  "target": "road",
+  "status": "active"
+}
+```
+
+Response `201 Created`: returns the stored alert object.
+
+### `POST /api/alerts/generate`
+
+Generates and stores an alert from a risk score.
+
+Request body:
+
+```json
+{
+  "risk_score": 81,
+  "latitude": 27.12,
+  "longitude": 93.52,
+  "target": "village"
+}
+```
+
+Risk thresholds:
+
+- `0-30`: `low`
+- `31-60`: `moderate`
+- `61-80`: `high`
+- `81-100`: `critical`
+
+For a score of `81` or higher, the generated title is `Critical Landslide Risk`.
+The response is `201 Created` and contains the stored alert object.
+
+---
+
 ## HTTP status codes
 
 | Status | Meaning |

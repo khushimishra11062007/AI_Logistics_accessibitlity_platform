@@ -95,6 +95,9 @@ FastAPI exposes the generated API documentation when the backend is running:
 - `PUT /api/roads/{road_id}/status` updates a road to `open`, `partially_blocked`, `high_risk`, or `blocked`
 - `GET /api/villages` supports `state`, `district`, and `risk_level` filters
 - `GET /api/villages/{village_id}` returns one village
+- `GET /api/alerts` lists stored alerts
+- `POST /api/alerts` creates an alert
+- `POST /api/alerts/generate` generates an alert from a risk score
 
 ## Risk prediction flow
 
