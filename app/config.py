@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "change-me-in-production"
     ALLOWED_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    aws_region: str = "us-east-1"
+    aws_sqs_queue_url: str = ""
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
