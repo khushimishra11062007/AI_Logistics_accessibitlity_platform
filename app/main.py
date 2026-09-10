@@ -23,8 +23,8 @@ def create_app() -> FastAPI:
     )
 
     @app.on_event("startup")
-    def startup_event() -> None:
-        init_db()
+    async def startup_event() -> None:
+        await init_db()
 
     register_error_handlers(app)
     app.include_router(health_router)
