@@ -6,7 +6,11 @@ class Settings(BaseSettings):
     APP_VERSION: str = "0.1.0"
     DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/ner_safe_db"
     SECRET_KEY: str = "change-me-in-production"
-    ALLOWED_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
+    ALLOWED_ORIGINS: str = (
+        "http://localhost:3000,http://127.0.0.1:3000,"
+        "http://localhost:5173,http://127.0.0.1:5173,"
+        "http://localhost:5174,http://127.0.0.1:5174"
+    )
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     aws_region: str = "us-east-1"
     aws_sqs_queue_url: str = ""

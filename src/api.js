@@ -127,3 +127,26 @@ export function generateAlert(input) {
     body: JSON.stringify(input),
   });
 }
+
+export function getEmergencyPriorities() {
+  return request("/api/emergency/priorities");
+}
+
+export function optimizeRoute(input) {
+  return request("/api/routes/optimize", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function simulateHeavyRainfall() {
+  return request("/api/simulation/heavy-rainfall", {
+    method: "POST",
+  });
+}
+
+export function resetSimulation() {
+  return request("/api/simulation/reset", {
+    method: "POST",
+  });
+}
